@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.alibaba.druid.pool.xa.DruidXADataSource;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,12 +31,12 @@ public class DataSourceConfig2 {
     }
 
     @Bean("sqlSessionFactory_2")
-    public MybatisSqlSessionFactoryBean initMybatisSqlSessionFactoryBean2(@Qualifier("atomikosDataSource2") AtomikosDataSourceBean dataSource) throws Exception{
+    public SqlSessionFactory initSqlSessionFactory2(@Qualifier("atomikosDataSource2") AtomikosDataSourceBean dataSource) throws Exception{
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean=new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver()
                 .getResources("classpath:/mapper/person/*.xml"));
 
-        return sqlSessionFactoryBean;
+        return sqlSessionFactoryBean.getObject();
     }
 }
